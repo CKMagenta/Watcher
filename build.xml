@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project name="Watcher" default="war" >
+    
+    <!--  <property file="build.properties" />  -->
+	
+	<path id="compile.classpath">
+		<fileset dir="web/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init">
+	    <mkdir dir="bin/classes" />
+		<mkdir dir="dist" />
+		<delete file="dist/${project-name}" />
+	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="bin/classes" debug="true" srcdir="src">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+	    <!--  example : Project name, http://localhost:8080/PROJECT_NAME/.. basic == 101?-->
+		<war destfile="dist/${project-name}.war" webxml="WEB-INF/web.xml">
+			<fileset dir="asset" />    
+			<lib dir="WEB-INF/lib"/>
+			<classes dir="bin/classes"/>
+		</war>
+	</target>
+	
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="bin" />
+	</target>
+
+	<target name="upload" depends="war">
+		<scp todir="${ftp-userid}:${ftp-password}@${ftp-server}:${server-home-directory}/webapps" trust="true" >
+			<fileset dir="dist">
+				<include name="${project-name}.war" />
+			</fileset>
+		</scp>
+		<!-- ant sftp로 파일 업로드 : http://choiks14.tistory.com/8 -->
+		<!-- http://www.avajava.com/tutorials/lessons/how-do-i-use-ant-to-ftp-a-war-file-and-deploy-it-to-tomcat.html?page=1  -->
+		<!-- ant 빌드 방법에 대해서 정리 : http://lng1982.tistory.com/117  -->
+	</target>
+			
+</project>
