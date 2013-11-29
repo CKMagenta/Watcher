@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * @author pong0923
  */
 public class DBManager {
+	static final private String environment = "development";
 	
 	static final private String connectorName	= "jdbc";			//> db connector type. (DON'T TOUCH)
 	static final private String dbType 			= "mysql";			//> db type
@@ -24,8 +25,10 @@ public class DBManager {
 	static final private String dbName 			= "DB_NAME";		//> Database name ex) web
 	
     static final private String userid 		= "DB_USER_ID";
-    static final private String password 		= "DB_PASSWORD";
-    static final private String server 		= connectorName + ":"+ dbType +"://" + DBManager.hostURL + ":3306/"+dbName;
+    static final private String password 	= "DB_PASSWORD";
+    static final private String server 		= environment.equalsIgnoreCase("development") 
+    							? "jdbc:mysql//localhost:3306/watcher" 
+    							: connectorName + ":"+ dbType +"://" + DBManager.hostURL + ":3306/"+dbName;
     
     // http://stackoverflow.com/questions/16425224/java-servlet-insert-mysql
     
