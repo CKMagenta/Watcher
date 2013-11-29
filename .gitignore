@@ -4,7 +4,7 @@ reated by http://gitignore.io
 *.class
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 
@@ -61,7 +61,7 @@ DerivedData
 
 ### Eclipse ###
 *.pydevproject
-.project
+#.project
 .metadata
 bin/**
 tmp/**
@@ -71,9 +71,9 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
-.settings/
-.loadpath
+#.classpath
+#.settings/
+#.loadpath
 
 # External tool builders
 .externalToolBuilders/
