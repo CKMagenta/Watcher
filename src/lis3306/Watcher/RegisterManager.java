@@ -26,6 +26,9 @@ public class RegisterManager {
 	 */
 	public String registerParent(String name, String userid, String password, String phonenumber, long TS) {
 		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
+		String json = "";
+		
+		return json;
 	}
 	
 	/**
@@ -44,5 +47,8 @@ public class RegisterManager {
 	 */
 	public String registerChildren(String name, String phonenumber, long TS) {
 		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
+		String json = "";
+		
+		return json;
 	}
 }

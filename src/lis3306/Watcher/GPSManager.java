@@ -22,7 +22,11 @@ public class GPSManager {
 	 * 로그인이 되어 있다면, 주어진 fromTs부터 toTs까지의 GPS 값을 보두 읽어와서 JSON배열로 내보낸다. 
 	 */
 	public String getGPS(long fromTS, long toTS) {
+		String json = "";
 		
+		//
+		
+		return json;
 	}
 	
 	/**
@@ -41,5 +45,8 @@ public class GPSManager {
 	 */
 	public String putGPS(double lat, double lon, String phonenumber, long TS) {
 		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
+		String json = "";
+		
+		return json;
 	}
 }

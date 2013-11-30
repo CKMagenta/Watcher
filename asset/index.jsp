@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-<title>Watcher :: </title>
+<%@include file="header.jsp" %>
+<!-- BODY START -->
 
-	<link href="style/jquery-ui-1.10.3.custom.min.css" />
-	<link href="style/bootstrap.min.css" />
-	<link href="style/flat=ui.css" />
-	
-	<script src="lib/jquery-1.10.2.min.js"></script>
-	
-	<script src="lib/json2.min.js"></script>
-	<script src="lib/underscore-min.js"></script>
-	
-	<script src="lib/amplify.js"></script>
-	<script src="lib/holder.js"></script>
-	<script src="lib/normalize.js"></script>
-	
-</head>
-<body>
-	
-</body>
-</html>
-
+<!-- BODY END -->
+<%@include file="footer.jsp" %>

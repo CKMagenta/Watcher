@@ -40,6 +40,8 @@ public class LoginManager {
 	 * @return 세션 검사를 통해서 현재 로그인이 되어 있는지 아닌지 검사한다. 되어 있다면  true를, 아니라면 false를 리턴한다.
 	 */
 	protected boolean isLoggedIn() {
+		boolean isLoggedIn = false;
 		
+		return isLoggedIn;
 	}
 }

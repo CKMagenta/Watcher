@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<head>
-<meta charset="utf-8">
-<title>Watcher :: </title>
-	<link href="style/jquery-ui-1.10.3.custom.min.css" />
-	<link href="style/bootstrap.min.css" />
-	<link href="style/flat=ui.css" />
-	
-	<script src="lib/jquery-1.10.2.min.js"></script>
-	
-	<script src="lib/json2.min.js"></script>
-	<script src="lib/underscore-min.js"></script>
-	
-	<script src="lib/amplify.js"></script>
-	<script src="lib/holder.js"></script>
-	<script src="lib/normalize.js"></script>
-	
-	<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e5></script>bec378ac7c029a"></script>
-	
-</head>
-
-<body>
-
+<jsp:include page="header.jsp" flush="true" ></jsp:include>
+<!-- BODY START -->
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e5></script>bec378ac7c029a"></script>
 
 
 <script>
@@ -119,17 +99,17 @@ function panTo() {
 }
 </script>
 
-	<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
-	<script src="lib/jquery.dataTables.min.js"></script>
-	<script src="lib/jquery.multi-select.js"></script>
-	<script src="lib/jquery.placeholder.min.js"></script>
-	<script src="lib/jquery.stacktable.js"></script>
-	<script src="lib/jquery.tagsinput.js"></script>
-	<script src="lib/jquery.ui.touch-punch.js"></script>
-	<script src="lib/jquery.validate.min.js"></script>
-	
-	<script src="lib/flatui-checkbox.js"></script>
-	<script src="lib/flatui.radio.js"></script>
-</body>
+<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="lib/jquery.dataTables.min.js"></script>
+<script src="lib/jquery.multi-select.js"></script>
+<script src="lib/jquery.placeholder.min.js"></script>
+<script src="lib/jquery.stacktable.js"></script>
+<script src="lib/jquery.tagsinput.js"></script>
+<script src="lib/jquery.ui.touch-punch.js"></script>
+<script src="lib/jquery.validate.min.js"></script>
 
-</html>
+<script src="lib/flatui-checkbox.js"></script>
+<script src="lib/flatui.radio.js"></script>
+
+<!-- BODY END -->
+<jsp:include page="footer.jsp" ></jsp:include>

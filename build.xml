@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project name="Watcher" default="war" >
     
-    <!--  <property file="build.properties" />  -->
+    <property file="build.properties" />
 	
 	<path id="compile.classpath">
-		<fileset dir="web/WEB-INF/lib">
+		<fileset dir="WEB-INF/lib">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
