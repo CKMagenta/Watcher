@@ -4,11 +4,11 @@
 <script src="lib/jquery.placeholder.min.js"></script>
 <script src="lib/jquery.stacktable.js"></script>
 <script src="lib/jquery.tagsinput.js"></script>
-<script src="lib/jquery.ui.touch-punch.js"></script>
+<script src="lib/jquery.ui.touch-punch.min.js"></script>
 <script src="lib/jquery.validate.min.js"></script>
 
 <script src="lib/flatui-checkbox.js"></script>
-<script src="lib/flatui.radio.js"></script>
+<script src="lib/flatui-radio.js"></script>
 </body>
 </html>
 

@@ -1,8 +1,44 @@
+<%
+// Login 여부 확인
+%>
+
 <jsp:include page="header.jsp" flush="true" ></jsp:include>
 <!-- BODY START -->
-<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e5></script>bec378ac7c029a"></script>
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e5bec378ac7c029a"></script>
+<link href="style/controlCenter.css" rel="stylesheet" type="text/css" />
 
+<div class="container">
+<div class="row">
+<span class="label label-default date label" ></span> <input type="text" class="date hidden" /><button type="button" class="date btn btn-default btn-sm"><span class="glyphicon glyphicon-calendar"></span></button>
+</div> <!-- row -->
+<script>
+  $(function() {
+    $( "input.date" ).datepicker({
+      showOn: "button",
+      buttonImage: "",
+      buttonImageOnly: true
+    });
+    $("input.date").datepicker('setDate', new Date());
+    var d = $("input.date").datepicker('getDate');
+  	$('span.date').text( d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() );
+  });
+  $("button.date").on('click', function(e) {
+  	$(".ui-datepicker-trigger").trigger('click');
+  	return false;
+  });
+  $("input.date").on('change', function(e) {
+  	// var t = $("input.date").val();
+  	// $('span.date').text( t.replace(/(\d{2})\/(\d{2})\/(\d{4})/,'$3-$2-$1') );
+  	var d = $("input.date").datepicker('getDate');
+  	$('span.date').text( d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() );
+  });
+</script>
+  
+<div class="row" id="map-container" >
+<div id="map"></div>
+</div> <!-- map container -->
 
+</div> <!-- container -->
 <script>
 var map;	// http://dna.daum.net/apis/maps
 function init() {
