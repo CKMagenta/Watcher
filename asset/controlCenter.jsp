@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html>
 <head>
-	<meta charset="utf-8">
+<meta charset="utf-8">
 <title>Watcher :: </title>
-
-	<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e52cfbec378ac7c029a"></script>
-	<script type="text/javascript" src="lib/require.js" data-main="init"></script>
+	<link href="style/jquery-ui-1.10.3.custom.min.css" />
+	<link href="style/bootstrap.min.css" />
+	<link href="style/flat=ui.css" />
+	
+	<script src="lib/jquery-1.10.2.min.js"></script>
+	
+	<script src="lib/json2.min.js"></script>
+	<script src="lib/underscore-min.js"></script>
+	
+	<script src="lib/amplify.js"></script>
+	<script src="lib/holder.js"></script>
+	<script src="lib/normalize.js"></script>
+	
+	<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=0a0370638f1e498d51945e5></script>bec378ac7c029a"></script>
+	
 </head>
-<body>Hello World!</body>
-</html>
+
+<body>
+
+
 
 <script>
 var map;	// http://dna.daum.net/apis/maps
@@ -105,3 +118,18 @@ function panTo() {
 	map.panTo(new daum.maps.LatLng(37.53730198471141, 127.00744728571883));
 }
 </script>
+
+	<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="lib/jquery.dataTables.min.js"></script>
+	<script src="lib/jquery.multi-select.js"></script>
+	<script src="lib/jquery.placeholder.min.js"></script>
+	<script src="lib/jquery.stacktable.js"></script>
+	<script src="lib/jquery.tagsinput.js"></script>
+	<script src="lib/jquery.ui.touch-punch.js"></script>
+	<script src="lib/jquery.validate.min.js"></script>
+	
+	<script src="lib/flatui-checkbox.js"></script>
+	<script src="lib/flatui.radio.js"></script>
+</body>
+
+</html>

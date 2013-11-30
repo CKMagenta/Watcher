@@ -30,7 +30,7 @@ public class HandlerServlet extends HttpServlet {
 	 * 해당 주석을 보고 인자 값을 전달받은 request의 formdata로부터 뽑아내어 method를 적절히 호출할 수 있도록 하자.
 	 * input은 request 내부에 key-value로 들어있는 formdata이다.
 	 * 
-	 * 응답은 모두 json type으로 하도록 한다.
+	 * Login/Logout을 제외한 응답은 모두 json type으로 하도록 한다.
 	 * 즉, 각 Manager Class에서 json String을 return 해 주면,
 	 * doGet Method에서 PrintWriter를 통해 json string을 화면에 써주기만 하면 된다.
 	 * 모든 output json string은 기본적으로 다음의 key-value를 포함하고 있어야 한다.
@@ -41,7 +41,10 @@ public class HandlerServlet extends HttpServlet {
 	 * - message의 경우, 오류나 예외가 발생하였을 때 이유를 적어준다.
 	 * 만약 성공적으로 실행되었다면(success == 1) 특별히 쓸 말이 없을 수 있다. 있다면 쓰고, 없다면 "" (빈 문자열, null과는 다르다)을 넣어주도록 하자.
 	 * 
-	 * 각 Manager Class에는 이 3가지 key-value pair를 제외한 추가적인 데이터에 대해서만 언급하도록 하겠다.  
+	 * 각 Manager Class에는 이 3가지 key-value pair를 제외한 추가적인 데이터에 대해서만 언급하도록 하겠다.
+	 * 
+	 * 
+	 * Login/Logout은 json return 없이 세션에 로그인 정보를 쓰고, page를 redirection 해줄 수 있도록 한다.
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	{
