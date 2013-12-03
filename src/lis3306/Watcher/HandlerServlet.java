@@ -60,9 +60,7 @@ public class HandlerServlet extends HttpServlet {
 			
 		} else if (action.equalsIgnoreCase("logout")) {
 			
-		} 
-		
-	          else if (action.equalsIgnoreCase("registerParent")) {
+		} else if (action.equalsIgnoreCase("registerParent")) {
 			RegisterManager lm = new RegisterManager();
 			String name = request.getParameter("name");
 			String userid = request.getParameter("userid");
