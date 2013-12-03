@@ -49,6 +49,56 @@ public class HandlerServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	{
 		response.setContentType("text/html");
+		String action = request.getParameter("action");
+		
+		if(action.equalsIgnoreCase("login")) {
+			LoginManager lm = new LoginManager();
+			String userid = request.getParameter("userid");
+			String password = request.getParameter("password");
+			
+			lm.login(userid, password);
+			
+		} else if (action.equalsIgnoreCase("logout")) {
+			
+		} 
+		
+	          else	if (action.equalsIgnoreCase("registerParent")) {
+			RegisterManager lm = new RegisterManager();
+			String name = request.getParameter("name");
+			String userid = request.getParameter("userid");
+			String password = request.getParameter("password");
+			String phonenumber = request.getParameter("phonenumber");
+			long TS = request.getIntHeader("TS");
+			
+			lm.registerParent(name, userid, password, phonenumber, TS);
+			
+		} else if (action.equalsIgnoreCase("registerChildren")) {
+			RegisterManager lm = new RegisterManager();
+			String name = request.getParameter("name");
+			String phonenumber = request.getParameter("phonenumber");
+			long TS = request.getIntHeader("TS");
+			
+			lm.registerChildren(name, phonenumber, TS);
+			
+		} 
+		
+		  else if (action.equalsIgnoreCase("getGPS")) {
+			GPSManager lm = new GPSManager();
+			long fromTS = request.getIntHeader("fromTS");
+			long toTS = request.getIntHeader("toTS");
+			
+			lm.getGPS(fromTS, toTS);			
+			
+		} else if (action.equalsIgnoreCase("putGPS")) {
+			GPSManager lm = new GPSManager();
+			double lat = request.getIntHeader("lat");
+			double lon = request.getIntHeader("lon");
+			String phonenumber = request.getParameter("phonenumber");
+			long TS = request.getIntHeader("TS");
+			
+			lm.putGPS(lat, lon, phonenumber, TS);			
+			
+		} 
 		
 	}
 	
