@@ -70,8 +70,7 @@ public class HandlerServlet extends HttpServlet {
 			
 			lm.registerParent(name, userid, password, phonenumber, TS);
 			
-		}
-		  else if (action.equalsIgnoreCase("registerChildren")) {
+		} else if (action.equalsIgnoreCase("registerChildren")) {
 			RegisterManager lm = new RegisterManager();
 			String name = request.getParameter("name");
 			String phonenumber = request.getParameter("phonenumber");
@@ -79,17 +78,14 @@ public class HandlerServlet extends HttpServlet {
 			
 			lm.registerChildren(name, phonenumber, TS);
 			
-		} 
-		
-		  else if (action.equalsIgnoreCase("getGPS")) {
+		} else if (action.equalsIgnoreCase("getGPS")) {
 			GPSManager lm = new GPSManager();
 			long fromTS = request.getIntHeader("fromTS");
 			long toTS = request.getIntHeader("toTS");
 			
 			lm.getGPS(fromTS, toTS);			
 			
-		} 
-		  else if (action.equalsIgnoreCase("putGPS")) {
+		} else if (action.equalsIgnoreCase("putGPS")) {
 			GPSManager lm = new GPSManager();
 			double lat = request.getIntHeader("lat");
 			double lon = request.getIntHeader("lon");
