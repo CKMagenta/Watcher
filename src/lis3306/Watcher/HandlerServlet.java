@@ -3,6 +3,7 @@
  */
 package lis3306.Watcher;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServlet;
@@ -43,22 +44,37 @@ public class HandlerServlet extends HttpServlet {
 	 * 
 	 * 각 Manager Class에는 이 3가지 key-value pair를 제외한 추가적인 데이터에 대해서만 언급하도록 하겠다.
 	 * 
-	 * 
+	 * JSON 어레이 추가
 	 * Login/Logout은 json return 없이 세션에 로그인 정보를 쓰고, page를 redirection 해줄 수 있도록 한다.
 	 */
+	
+	@SuppressWarnings({ "unchecked", "unused" })
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	{
 		response.setContentType("text/html");
 		String action = request.getParameter("action");
 		
+		String json = null;
+		PrintWriter writer = null;
+		try {
+			writer = response.getWriter();
+		} catch (IOException e) {
+			// e.printStackTrace();
+		}
+		
+		
 		if(action.equalsIgnoreCase("login")) {
-			LoginManager lm = new LoginManager();
+			LoginManager lm = new LoginManager(request, response);
 			String userid = request.getParameter("userid");
 			String password = request.getParameter("password");
 			
-			lm.login(userid, password);
+			lm.login( userid, password);
 			
 		} else if (action.equalsIgnoreCase("logout")) {
+			LoginManager lm = new LoginManager(request, response);
+			long TS = Long.parseLong(request.getParameter("TS"));
+			
+			lm.logout();
 			
 		} else if (action.equalsIgnoreCase("registerParent")) {
 			RegisterManager lm = new RegisterManager();
@@ -66,35 +82,39 @@ public class HandlerServlet extends HttpServlet {
 			String userid = request.getParameter("userid");
 			String password = request.getParameter("password");
 			String phonenumber = request.getParameter("phonenumber");
-			long TS = request.getIntHeader("TS");
 			
-			lm.registerParent(name, userid, password, phonenumber, TS);
+			long TS = Long.parseLong( request.getParameter("TS") );
 			
+			json = lm.registerParent(name, userid, password, phonenumber, TS);
+
 		} else if (action.equalsIgnoreCase("registerChildren")) {
 			RegisterManager lm = new RegisterManager();
 			String name = request.getParameter("name");
 			String phonenumber = request.getParameter("phonenumber");
-			long TS = request.getIntHeader("TS");
+			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			lm.registerChildren(name, phonenumber, TS);
-			
+			json = lm.registerChildren(name, phonenumber, TS);
+
 		} else if (action.equalsIgnoreCase("getGPS")) {
 			GPSManager lm = new GPSManager();
-			long fromTS = request.getIntHeader("fromTS");
-			long toTS = request.getIntHeader("toTS");
+			long fromTS = Long.parseLong(request.getParameter("fromTS"));
+			long toTS = Long.parseLong(request.getParameter("toTS"));
 			
-			lm.getGPS(fromTS, toTS);			
-			
+			json = lm.getGPS(fromTS, toTS);
+
 		} else if (action.equalsIgnoreCase("putGPS")) {
 			GPSManager lm = new GPSManager();
-			double lat = request.getIntHeader("lat");
-			double lon = request.getIntHeader("lon");
+			double lat = Double.parseDouble(request.getParameter("lat"));
+			double lon = Double.parseDouble(request.getParameter("lon"));
 			String phonenumber = request.getParameter("phonenumber");
-			long TS = request.getIntHeader("TS");
+			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			lm.putGPS(lat, lon, phonenumber, TS);			
-			
+			json = lm.putGPS(lat, lon, phonenumber, TS);
 		} 
+		
+		if ( json != null ) {
+			writer.print(json);
+		}
 		
 	}
 	
@@ -107,5 +127,6 @@ public class HandlerServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	{	
 		doGet(request, response);		
+		
 	}
 }
