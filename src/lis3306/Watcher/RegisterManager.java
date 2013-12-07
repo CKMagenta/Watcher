@@ -2,6 +2,10 @@
  * 
  */
 package lis3306.Watcher;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.json.simple.JSONObject;
 
 /**
  * 자녀와 부모를 포함한 회원의 가입을 관리하는 객체이다.
@@ -27,10 +31,44 @@ public class RegisterManager {
 	public String registerParent(String name, String userid, String password, String phonenumber, long TS) {
 		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
 		String json = "";
+		JSONObject obj=new JSONObject();
+		obj.put("action","registerParent");
 		
-		return json;
-	}
+		ResultSet rs = DBManager.excuteQuery("SELECT * FROM parent WHERE userid != userid;");
 	
+		if (rs == null){
+		  	try{	
+				
+		  		int nResult = DBManager.executeUpdate("INSERT INTO parent (name,userid,password,children_idx,ts) VALUES (name,userid,password,childrenIdx,TS)");	
+				System.out.println("Registered Succesfully.");
+			
+				obj.put("success","1");
+				obj.put("message","");
+				
+				
+			}
+			catch(Exception e){
+				obj.put("success","0");
+				obj.put("message","SQL error");	
+			}
+		}
+		
+		else
+		{
+			System.out.println("Record is Already existed");
+			obj.put("success","0");
+			obj.put("message","already existed error");	
+	   	
+		}
+		
+		json = obj.toString();
+		return json;
+		}
+
+
+
+
+		
 	/**
 	 * @title registerChildren
 	 * @param name			자녀의 이름
@@ -46,9 +84,41 @@ public class RegisterManager {
 	 * input : { action : "registerChildren", name : "둘리", phonenumber : "01022222222", TS : 1385734459 }
 	 */
 	public String registerChildren(String name, String phonenumber, long TS) {
-		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
-		String json = "";
 		
-		return json;
+		String json = "";
+		JSONObject obj=new JSONObject();
+		obj.put("action","registerChildren");
+		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
+		
+		ResultSet rs = DBManager.excuteQuery("SELECT * FROM children WHERE idx == childrenIdx;");
+		
+		if (rs != null){
+			
+		
+		try{	
+				
+	    	int nResult = DBManager.executeUpdate("INSERT INTO children (name,phonenumbeer,ts) VALUES (name,phonenumber,TS)");	
+			System.out.println("Registerd Successfully.");
+			
+			obj.put("success","1");
+			obj.put("message","");
+			
+		}
+		catch(Exception e){
+			obj.put("success","0");
+			obj.put("message","SQL error");	
+		}
+	}
+	
+	else
+	{
+		System.out.println("No Record");
+		obj.put("success","0");
+		obj.put("message","No Record error");	
+   	
+	}
+	
+	json = obj.toString();
+	return json;
 	}
 }

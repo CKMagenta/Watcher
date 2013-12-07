@@ -2,30 +2,91 @@
  * 
  */
 package lis3306.Watcher;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 
 /**
  *	GPS 값을 DB에서 읽어오거나 DB에 입력하는 Model Class
  */
 public class GPSManager {
 	
+	
+	
 	/**
 	 * @title getGPS
 	 * @param fromTS	읽어오기 시작할 ts
 	 * @param toTS		읽어옴을 끝낼 ts
+	 * @param phonenumber		읽어올 아이의 전화번호
 	 * @return json message { gps : [{lat : 37.566113, lon : 126.940148, TS : 1385734459}, {lat : 37.566113, lon : 126.940148, TS : 1385734459}, ... ] }
 	 * ( gps라는 키는 배열을 가리키는데, 그 배열 안에는 lat/lon/TS로 이루어진 object 여러개가 들어있다 )
 	 * 
 	 * input : { action : "getGPS", fromTS : 1385714459, toTS : 1385724459, TS : 1385734459 }
 	 * 
-	 * LoginManger의 isLoggedIn() 함수를 통해
+	 * 1. LoginManger의 isLoggedIn() 함수를 통해
 	 * (만약 로그인이 되어 있지 않다면, 그렇다는 내용의 에러를 발생시키고)
-	 * 로그인이 되어 있다면, 주어진 fromTs부터 toTs까지의 GPS 값을 보두 읽어와서 JSON배열로 내보낸다. 
+	 * 
+	 * 2. 로그인이 되어 있다면, 주어진 fromTs부터 toTs까지의 GPS 값을 보두 DB로부터 읽어온다.
+	 * 
+	 * 3.읽어온 값들을 JSON배열로 내보낸다. 
 	 */
-	public String getGPS(long fromTS, long toTS) {
+
+		
+	public String getGPS(long fromTS, long toTS, String phonenumber) throws SQLException {
+		
+		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
 		String json = "";
+		JSONObject obj=new JSONObject();
+    	obj.put("action","getGPS");
+    	
+
+        LoginManager LM = new LoginManager();
+       	boolean log =LoginManager.isLoggedIn();;
+    	
+    	
+	  //로그인이 안되어있으면 에러메세지를 출력한다.
+	    if (log == false){
+	
+	    	 System.out.println("Login First.");
+	    	  	obj.put("success",0);
+		    	obj.put("message","Not logined");
+		    	obj.put("gps",null);
+		   }
+	    
+	  //로그인이 되었으면 DB에서 가져온다.
+	    else {
+	    	JSONArray result = new JSONArray();
+	    	ResultSet rs = DBManager.excuteQuery("SELECT * FROM gps WHERE ( ts >= fromTS ) AND ( ts <= toTS )AND (phonenumber==childrenIdx);");
+	    	
+	    	while(rs.next()) {
+	    		JSONObject row = new JSONObject();
+	    		    		
+	    		row.put("lat", rs.getDouble("lat"));
+	    		row.put("lon", rs.getDouble("lon"));
+	    		row.put("ts", rs.getInt("ts"));
+	    		
+	    		result.add(row);
+	    	}
+
+	    	
+	    	obj.put("success",1);
+	    	obj.put("message","");
+	    	obj.put("gps",result);
+	    	
+	   
+	    	
 		
-		//
-		
+	    }
+	 	System.out.print(obj.toString());
+    	json = obj.toString();
 		return json;
 	}
 	
@@ -46,7 +107,40 @@ public class GPSManager {
 	public String putGPS(double lat, double lon, String phonenumber, long TS) {
 		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
 		String json = "";
+		JSONObject obj=new JSONObject();
+		obj.put("action","putGPS");
 		
-		return json;
+		ResultSet rs = DBManager.excuteQuery("SELECT * FROM children WHERE idx == childrenIdx;");
+		
+		if (rs != null){
+		
+	   	try{	
+			int nResult = DBManager.executeUpdate("INSERT INTO gps (lat,lon,ts,children_idx) VALUES (lat,lon,ts,childrenIdx);");	
+				
+			System.out.println("Record inserted successfully!");
+			
+			obj.put("success","1");
+			obj.put("message","");
+			obj.put("nResult",nResult);
+				
+		}
+	   	catch(Exception e){
+			obj.put("success","0");
+			obj.put("message","SQL error");	
+			obj.put("nResult",null);	
+		}
+	}
+	
+	else
+	{
+		System.out.println("No Record");
+		obj.put("success","0");
+		obj.put("message","No Record error");	
+		obj.put("nResult",null);	
+   	
+	}
+	
+	json = obj.toString();
+	return json;
 	}
 }
