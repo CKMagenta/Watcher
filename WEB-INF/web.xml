@@ -9,7 +9,7 @@
  
 <servlet>
 	<servlet-name>HandlerServlet</servlet-name>
-    <servlet-class>HandlerServlet</servlet-class>
+    <servlet-class>lis3306.Watcher.HandlerServlet</servlet-class>
 </servlet>
 <servlet-mapping>
         <servlet-name>HandlerServlet</servlet-name>

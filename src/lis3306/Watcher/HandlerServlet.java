@@ -62,8 +62,10 @@ public class HandlerServlet extends HttpServlet {
 			// e.printStackTrace();
 		}
 		
-		
-		if(action.equalsIgnoreCase("login")) {
+		if(action == null) {
+			writer.print("ACCESS DENIED");
+			return;
+		} else if(action.equalsIgnoreCase("login")) {
 			LoginManager lm = new LoginManager(request, response);
 			String userid = request.getParameter("userid");
 			String password = request.getParameter("password");
@@ -78,32 +80,33 @@ public class HandlerServlet extends HttpServlet {
 			
 		} else if (action.equalsIgnoreCase("registerParent")) {
 			RegisterManager lm = new RegisterManager();
-			String name = request.getParameter("name");
+			String parentName = request.getParameter("parentName");
+			String childrenName = request.getParameter("childrenName");
 			String userid = request.getParameter("userid");
 			String password = request.getParameter("password");
 			String phonenumber = request.getParameter("phonenumber");
 			
 			long TS = Long.parseLong( request.getParameter("TS") );
 			
-			json = lm.registerParent(name, userid, password, phonenumber, TS);
+			json = lm.registerParent(parentName, childrenName, userid, password, phonenumber, TS);
 
 		} else if (action.equalsIgnoreCase("registerChildren")) {
 			RegisterManager lm = new RegisterManager();
-			String name = request.getParameter("name");
 			String phonenumber = request.getParameter("phonenumber");
 			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			json = lm.registerChildren(name, phonenumber, TS);
+			json = lm.registerChildren(phonenumber, TS);
 
 		} else if (action.equalsIgnoreCase("getGPS")) {
-			GPSManager lm = new GPSManager();
+			GPSManager lm = new GPSManager(request, response);
 			long fromTS = Long.parseLong(request.getParameter("fromTS"));
 			long toTS = Long.parseLong(request.getParameter("toTS"));
+			String phonenumber = request.getParameter("phonenumber");
 			
-			json = lm.getGPS(fromTS, toTS);
+			json = lm.getGPS(fromTS, toTS, phonenumber);
 
 		} else if (action.equalsIgnoreCase("putGPS")) {
-			GPSManager lm = new GPSManager();
+			GPSManager lm = new GPSManager(request, response);
 			double lat = Double.parseDouble(request.getParameter("lat"));
 			double lon = Double.parseDouble(request.getParameter("lon"));
 			String phonenumber = request.getParameter("phonenumber");

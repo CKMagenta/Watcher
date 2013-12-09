@@ -9,23 +9,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.mysql.jdbc.ResultSetMetaData;
 
 /**
  * @author pong0923
  */
 public class DBManager {
-	static final private String environment = "development";
+	static final private String environment = "deploy";
 	
 	static final private String connectorName	= "jdbc";			//> db connector type. (DON'T TOUCH)
 	static final private String dbType 			= "mysql";			//> db type
 	
-	static final private String hostURL 		= "HOST_URL";		//> DB가 존재하는 ip 혹은 url ex) localhost
-	static final private String dbName 			= "DB_NAME";		//> Database name ex) web
+	static final private String hostURL 		= "localhost";		//> DB가 존재하는 ip 혹은 url ex) localhost
+	static final private String dbName 			= "watcher";		//> Database name ex) web
 	
-    static final private String userid 		= "DB_USER_ID";
-    static final private String password 	= "DB_PASSWORD";
+    static final private String userid 		= "root";
+    static final private String password 	= "";
     static final private String server 		= environment.equalsIgnoreCase("development") 
     							? "jdbc:mysql//localhost:3306/watcher" 
     							: connectorName + ":"+ dbType +"://" + DBManager.hostURL + ":3306/"+dbName;
@@ -46,32 +50,76 @@ public class DBManager {
      * @return SELECT한 결과물의 집합을 반환한다.
      * 사용법 : DBManager.excuteQuery("SELECT...");
      */
-    static public ResultSet excuteQuery(String query) {
+    static public ArrayList<HashMap<String, Object>> excuteQuery(String query) throws Error {
     	Connection conn = null;
     	Statement st = null;
     	ResultSet rs = null;
+    	
+    	ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+    	ResultSetMetaData rsmd;
+    	int nCol = 0;
+    	
     	try {
     		conn = DBManager.connect();
     		st = conn.createStatement();
     		PreparedStatement ps = conn.prepareStatement(query);
     		rs = ps.executeQuery();
+    		
+    		rsmd = (ResultSetMetaData)rs.getMetaData();
+			nCol = rsmd.getColumnCount();
+    		
+			while(rs.next()) {
+    			HashMap<String, Object> row = new HashMap<String, Object>();
+    			for(int i=0; i< nCol; i++) {
+    				String key = rsmd.getColumnLabel(i+1);
+    				if(key.equalsIgnoreCase("lat") || key.equalsIgnoreCase("lon")) {
+    					Double val = rs.getDouble(key);
+    					row.put(key, val);
+    				} else if(key.equalsIgnoreCase("ts")) {
+    					Long val = rs.getLong(key);
+    					row.put(key, val);
+    				} else {
+    					String val = rs.getString(key);
+    					row.put(key, val);
+    				}
+    				
+    			}
+    			result.add(row);
+    		}
     	} catch (Exception e) {
     		Logger lgr = Logger.getLogger(DBManager.class.getName());
             lgr.log(Level.SEVERE, e.getMessage(), e);
+            Error err = null;
+            String errMsg = e.getMessage();
+            if(errMsg == null || errMsg.length() < 1 ) {
+            	err = new Error();
+            } else {
+            	err = new Error(e.getMessage());
+            }
+            
+            throw err;
     	} finally {
     		if(st != null) {
     			try {
     				st.close();
-    			} catch (SQLException e) {}
+    			} catch (SQLException e) {
+    				Error err = new Error(e.getMessage() + "");
+    	            throw err;
+    			}
     		}
     		if(conn != null) {
     			try {
     				DBManager.close(conn);
-    			} catch (SQLException e) {}
+    			} catch (SQLException e) {
+    				Error err = new Error(e.getMessage() + "");
+    	            throw err;
+    			}
     		}
     	}
     	
-    	return rs;
+    	
+    	
+    	return result;
     }
     
     /**

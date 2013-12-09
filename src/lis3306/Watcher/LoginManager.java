@@ -1,8 +1,10 @@
 package lis3306.Watcher;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -46,20 +48,14 @@ public class LoginManager {
 	public void login(String userid, String password) {
 		// System.out.println("userid : "+userid+" / password : "+password);	//param값이 정상적으로 들어왔는지 확인용
 		
-		ResultSet rs = DBManager.excuteQuery("select * from parent where userid = "+userid);
+		ArrayList<HashMap<String, Object>> rs = DBManager.excuteQuery("SELECT * FROM parent WHERE userid='"+userid+"'");
 		String rspassword = "";
-		int nRow = 0;
-		try {
-	        while(rs.next()){
-				rspassword = rs.getString(rs.findColumn("password"));
-	        }   
-			
-			if(rs.last()) {
-				nRow = rs.getRow();
-			}
-		} catch (SQLException e) {
-			// e.printStackTrace();
-		}
+		int nRow = rs.size();
+		Iterator<HashMap<String, Object>> it = rs.iterator();
+        while(it.hasNext()){
+        	HashMap<String, Object> map = it.next();
+			rspassword = (String)map.get("password");
+        }   
 		
 		String nextPage = "";
         if(nRow > 0){			
