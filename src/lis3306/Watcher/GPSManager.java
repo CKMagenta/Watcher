@@ -44,11 +44,16 @@ public class GPSManager {
 	 * 3.읽어온 값들을 JSON배열로 내보낸다. 
 	 */		
 	public String getGPS(long fromTS, long toTS, String phonenumber) {
-		
-		String childrenIdx = EncryptManager.childrenIdx(phonenumber);
 		String json = "";
 		JSONObject obj = new JSONObject();
     	obj.put("action","getGPS");
+    	if(phonenumber == null) {
+    		obj.put("success", "0");
+    		obj.put("message", "not Logged in");
+    		return obj.toJSONString();
+    	}
+    	
+    	String childrenIdx = EncryptManager.childrenIdx(phonenumber);
 
         LoginManager lm = new LoginManager(this.request, this.response);
        	boolean log = lm.isLoggedIn();
@@ -62,7 +67,7 @@ public class GPSManager {
 	    	//로그인이 되었으면 DB에서 가져온다.
 	    	JSONArray coords = new JSONArray();
 	    	try {
-	    		ArrayList<HashMap<String, Object>> rs = DBManager.excuteQuery("SELECT * FROM gps WHERE ( ts >= "+fromTS+" ) AND ( ts <="+toTS+" ) AND (children_idx='"+childrenIdx+"');");
+	    		ArrayList<HashMap<String, Object>> rs = DBManager.excuteQuery("SELECT * FROM gps WHERE ( ts >= "+fromTS+" ) AND ( ts <="+toTS+" ) AND (children_idx='"+childrenIdx+"') ORDER BY ts ASC, id ASC;");
 	    		Iterator<HashMap<String, Object>> it = rs.iterator();
 		    	while( it.hasNext() ) {
 		    		HashMap<String, Object> map = it.next();

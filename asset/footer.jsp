@@ -1,3 +1,7 @@
+<footer>
+  <p>Watcher, Best on Chrome</p>
+</footer>
+
 <script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="lib/jquery.dataTables.min.js"></script>
 <script src="lib/jquery.multi-select.js"></script>
@@ -9,6 +13,8 @@
 
 <script src="lib/flatui-checkbox.js"></script>
 <script src="lib/flatui-radio.js"></script>
+
+
 </body>
 </html>
 

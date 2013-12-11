@@ -5,6 +5,8 @@ package lis3306.Watcher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +33,7 @@ public class HandlerServlet extends HttpServlet {
 	 * 해당 주석을 보고 인자 값을 전달받은 request의 formdata로부터 뽑아내어 method를 적절히 호출할 수 있도록 하자.
 	 * input은 request 내부에 key-value로 들어있는 formdata이다.
 	 * 
-	 * Login/Logout을 제외한 응답은 모두 json type으로 하도록 한다.
+	 * Login을 제외한 응답은 모두 json type으로 하도록 한다.
 	 * 즉, 각 Manager Class에서 json String을 return 해 주면,
 	 * doGet Method에서 PrintWriter를 통해 json string을 화면에 써주기만 하면 된다.
 	 * 모든 output json string은 기본적으로 다음의 key-value를 포함하고 있어야 한다.
@@ -66,20 +68,20 @@ public class HandlerServlet extends HttpServlet {
 			writer.print("ACCESS DENIED");
 			return;
 		} else if(action.equalsIgnoreCase("login")) {
-			LoginManager lm = new LoginManager(request, response);
+			LoginManager manager = new LoginManager(request, response);
 			String userid = request.getParameter("userid");
 			String password = request.getParameter("password");
 			
-			lm.login( userid, password);
+			manager.login( userid, password);
 			
 		} else if (action.equalsIgnoreCase("logout")) {
-			LoginManager lm = new LoginManager(request, response);
+			LoginManager manager = new LoginManager(request, response);
 			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			lm.logout();
+			json = manager.logout();
 			
 		} else if (action.equalsIgnoreCase("registerParent")) {
-			RegisterManager lm = new RegisterManager();
+			RegisterManager manager = new RegisterManager();
 			String parentName = request.getParameter("parentName");
 			String childrenName = request.getParameter("childrenName");
 			String userid = request.getParameter("userid");
@@ -88,31 +90,55 @@ public class HandlerServlet extends HttpServlet {
 			
 			long TS = Long.parseLong( request.getParameter("TS") );
 			
-			json = lm.registerParent(parentName, childrenName, userid, password, phonenumber, TS);
+			json = manager.registerParent(parentName, childrenName, userid, password, phonenumber, TS);
 
 		} else if (action.equalsIgnoreCase("registerChildren")) {
-			RegisterManager lm = new RegisterManager();
+			RegisterManager manager = new RegisterManager();
 			String phonenumber = request.getParameter("phonenumber");
 			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			json = lm.registerChildren(phonenumber, TS);
+			json = manager.registerChildren(phonenumber, TS);
 
 		} else if (action.equalsIgnoreCase("getGPS")) {
-			GPSManager lm = new GPSManager(request, response);
-			long fromTS = Long.parseLong(request.getParameter("fromTS"));
-			long toTS = Long.parseLong(request.getParameter("toTS"));
-			String phonenumber = request.getParameter("phonenumber");
+			GPSManager manager = new GPSManager(request, response);
+			long fromTS = 0;
+			try {
+				fromTS = Long.parseLong(request.getParameter("fromTS"));
+			} catch (Exception e) {
+				Calendar date = new GregorianCalendar();
+				date.set(Calendar.HOUR_OF_DAY, 0);
+				date.set(Calendar.MINUTE, 0);
+				date.set(Calendar.SECOND, 0);
+				date.set(Calendar.MILLISECOND, 0);
+				fromTS = date.getTimeInMillis()/1000L;
+			}
 			
-			json = lm.getGPS(fromTS, toTS, phonenumber);
+			long toTS = 0;
+			try {
+				toTS = Long.parseLong(request.getParameter("toTS"));
+			} catch (Exception e) {
+				Calendar date = new GregorianCalendar();
+				date.set(Calendar.HOUR_OF_DAY, 0);
+				date.set(Calendar.MINUTE, 0);
+				date.set(Calendar.SECOND, 0);
+				date.set(Calendar.MILLISECOND, 0);
+				date.add(Calendar.DAY_OF_MONTH, 1);
+				toTS = date.getTimeInMillis()/1000L;
+			}
+			
+			LoginManager loginManager = new LoginManager(request, response);
+			String phonenumber = loginManager.getChildrenIdx();
+			
+			json = manager.getGPS(fromTS, toTS, phonenumber);
 
 		} else if (action.equalsIgnoreCase("putGPS")) {
-			GPSManager lm = new GPSManager(request, response);
+			GPSManager manager = new GPSManager(request, response);
 			double lat = Double.parseDouble(request.getParameter("lat"));
 			double lon = Double.parseDouble(request.getParameter("lon"));
 			String phonenumber = request.getParameter("phonenumber");
 			long TS = Long.parseLong(request.getParameter("TS"));
 			
-			json = lm.putGPS(lat, lon, phonenumber, TS);
+			json = manager.putGPS(lat, lon, phonenumber, TS);
 		} 
 		
 		if ( json != null ) {

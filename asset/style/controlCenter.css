@@ -1,14 +1,18 @@
 #map {
 	/* width : 720px; */
-	position : absolute;
+	/*position : absolute;
 	left : 80px;
-	right : 80px;
+	right : 80px*/;
 	height : 540px;
+	/*margin-top : 12px;
+	margin-bottom : 32px;*/
+	margin : 36px 80px;
+	/*top : 114px;*/
 }
 
-#map-conatiner {
+#map-container {
 	position : relative;
-	height : 540px;
+	height : 560px;
 }
 
 .ui-datepicker-trigger {
@@ -22,3 +26,41 @@ span.date {
 button.date {
 	padding:1px 5px;
 }
+
+button.logout {
+	padding:1px 5px;
+}
+
+#date-container {
+	
+    /* width: 123px; */
+    position: absolute;
+    /* padding-right: 0px; */
+    margin-bottom: 16px;
+    left: 80px;
+    right: 80px;
+    z-index : 50;
+
+}
+
+#date-button {
+	
+    position: absolute;
+    right: 74px;
+
+}
+
+#date-indicator {
+	
+    position: absolute;
+    right: 102px;
+
+}
+
+#logout-button {
+	
+    position: absolute;
+    right: 2px;
+
+}
+

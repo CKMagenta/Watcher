@@ -37,7 +37,7 @@ public class RegisterManager {
 		JSONObject obj=new JSONObject();
 		obj.put("action","registerParent");
 		
-		ArrayList<HashMap<String, Object>> rs = DBManager.excuteQuery("SELECT * FROM parent WHERE userid="+userid+";");
+		ArrayList<HashMap<String, Object>> rs = DBManager.excuteQuery("SELECT * FROM parent WHERE userid='"+userid+"';");
 		int nRows = rs.size();
 				
 		if( nRows > 0 ) {

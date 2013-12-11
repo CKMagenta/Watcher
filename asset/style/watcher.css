@@ -1,3 +1,76 @@
 .container {
 	width : 970px !important;
-}:;
+}
+
+#body input[type="text"],
+#body input[type="password"] {
+	min-height : 36px;
+}
+
+#logo-container {
+	
+    position: relative;
+    height: 96px;
+	z-index : 100;
+}
+
+#logo-container a,
+#logo-container a:link,
+#logo-container a:hover,
+#logo-container a:visited,
+#logo-container a:active {
+	text-decoration: none;
+	border: none;
+	color : #34495e;
+	font-weight : 700;
+}
+
+#logo-image-container {
+	display:  inline;
+    width:  100px;
+    height:  100px;
+    position: absolute;
+    left: 85px;
+    top:  15px;
+}
+
+#logo-image-container img {
+	width : 100px;
+	height : 100px;
+}
+
+#logo-title-container {
+	
+    display: inline;
+    position: absolute;
+    left: 192px;
+    top: 24px;
+
+}
+
+#logo-title-container span {
+	font-size : 72px;
+}
+
+#content-container {
+	
+    /*position: absolute;
+    left: 80px;
+    right: 80px;
+    top: 25%;*/
+   position : relative;
+   margin : 20px 0px;
+
+}
+
+#body .container {
+	position : relative;
+}
+
+footer {
+	text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    color: #34495e;
+}
