@@ -53,7 +53,9 @@ public class HandlerServlet extends HttpServlet {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	{
-		response.setContentType("text/html");
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		String action = request.getParameter("action");
 		
 		String json = null;

@@ -8,9 +8,13 @@
 		message = (String)request.getAttribute("message");
 	} catch(Exception e) {}
 %>
-<h1>Something wrong!</h1>
-<p class="message"><%=message%></p>
-<p class="defaultMessage">After 3 second, It will be redirected to Main Page, automatically.</p>
+<div class="container">
+	<div class="row">
+		<h1>Something wrong!</h1>
+		<p class="message"><%=message%></p>
+		<p class="defaultMessage">After 3 second, It will be redirected to Main Page, automatically.</p>
+	</div>
+</div>
 <script type="text/javascript">
 	setTimeout(function() {
 		window.location = "index.jsp";

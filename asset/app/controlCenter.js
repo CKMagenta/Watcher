@@ -2,20 +2,22 @@
  * Initialize App
  */
 $(document).ready(function() {
+	if(!window.watcher) {
+		window.watcher = {};
+	}
 	
-	var watcher = {};
-	watcher.environment = 'development';
-	watcher.path = null;
-	watcher.currentLocation = null;
-	watcher.geocoder = null;
-	watcher.info = null;
-	watcher.log = function(msg) {
+	window.watcher.environment = 'development';
+	window.watcher.path = null;
+	window.watcher.currentLocation = null;
+	window.watcher.geocoder = null;
+	window.watcher.info = null;
+	window.watcher.log = function(msg) {
 		if(window.watcher.environment == 'development') {
 			if(console) console.log(msg);
 		}
 	}
 	
-	window.watcher = watcher;
+	// window.watcher = watcher;
 	
 	// make date layout
 	$( "input.date" ).datepicker({
@@ -51,7 +53,7 @@ $(document).ready(function() {
 				if(json.success-0 > 0) {
 					setTimeout(function() {
 						window.location = "index.jsp";
-					}, 10);
+					}, 100);
 				} else {
 					watcher.log('cannot logout. logout failed');
 				}
@@ -208,9 +210,12 @@ function markCurrentLocation(map, d, coord) {
 	if(!pic) {
 		pic = 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
 	}
+	if(watcher.children.phonenumber == '01089798982')
+		watcher.children.name = '송중기';
+	
 	var contentString = 
-		"<div style='width:300px;height:450px;margin:0;'>" +
-			"<img style='width:300px;height:400px;margin:0;' src='"+pic+"'/>"+
+		"<div style='width:120px;height:180px;margin:0;'>" +
+			"<img style='width:100px;height:133px;margin:0;' src='"+pic+"'/><br />"+
 			"<span class='name'>"+watcher.children.name+"</span> is Here!<br />"+
 			"<span class='address'></span>" +
 		"</div>";
@@ -234,7 +239,7 @@ function addressCurrentLocation(d, coord) {
 	}
 	
 	if(!watcher.geocoder) {
-		geocoder = new google.maps.Geocoder();
+		watcher.geocoder = new google.maps.Geocoder();
 	}
 	
 	watcher.geocoder.geocode(
@@ -242,7 +247,7 @@ function addressCurrentLocation(d, coord) {
 			function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					if (results[0]) {
-						$("span.address").text(results[0].formatted_address);
+						$("span.address").text('현재 ' + results[0].formatted_address + '에 있습니다.');
 						
 					}
 				} else {
@@ -295,5 +300,7 @@ function cleanMap(map) {
 		watcher.path.setMap(null);
 		watcher.path = null;
 	}
+	
+	$('span.address').text('');
 	
 }

@@ -2,6 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	
 <title>Watcher :: </title>
 
 	<link href="style/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
